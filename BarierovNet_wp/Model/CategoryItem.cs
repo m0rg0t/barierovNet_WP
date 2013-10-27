@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using BarierovNet_wp.ViewModel;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -74,7 +75,10 @@ namespace BarierovNet_wp.Model
 		    get { 
                 return "http://barierov.net/uploads/category/"+_image;
             }
-            set { _image = value; RaisePropertyChanged("Image"); }
+            set { 
+                _image = value; 
+                RaisePropertyChanged("Image"); 
+            }
 	    }
 
         private ImageSource CreateImageSource(object uri)
@@ -120,8 +124,17 @@ namespace BarierovNet_wp.Model
         /// </summary>
         public ObservableCollection<CategoryItem> Sub_cat
         {
-            get { return _sub_cat; }
-            set { _sub_cat = value; RaisePropertyChanged("Sub_cat"); }
+            get { 
+                return _sub_cat; 
+            }
+            set { 
+                _sub_cat = value;
+                foreach (var item in _sub_cat)
+                {
+                    item.Image = _image;
+                    item.Image_flag = _image_flag;
+                }
+                RaisePropertyChanged("Sub_cat"); }
         }
         
 
@@ -131,10 +144,42 @@ namespace BarierovNet_wp.Model
         /// </summary>
 	    public string About
 	    {
-		    get { return _about;}
-		    set { _about = value;}
-	    }	
-        
-         
+		    get { 
+                return _about;
+            }
+		    set { 
+                _about = value;
+            }
+	    }
+
+
+        public List<PlaceItem> ChildPlaces
+        {
+            private set
+            {
+            }
+            get
+            {
+                var items = new List<PlaceItem>();
+                foreach (var item in ViewModelLocator.MainStatic.Places)
+                {
+                    if (item.Parent_categories.FirstOrDefault(c => c.ToString() == this.Id.ToString()) != null)
+                    {
+                        if (item.Images.Count() < 1)
+                        {
+                            item.Images.Add(this.Image);
+                        };
+                        items.Add(item);
+                    };
+                };
+                /*var items = from item in ViewModelLocator.MainStatic.Places
+                            where 
+                            (item.Categories.FirstOrDefault(c=>c == this.Id.ToString()) != null) ||
+                            (this.Sub_cat.FirstOrDefault(c => (item.Categories.FirstOrDefault(f => f == this.Id.ToString()) != null))!=null)
+                            select item;*/
+                return items.ToList();
+            }
+        }
+
     }
 }

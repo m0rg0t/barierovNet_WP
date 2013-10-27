@@ -33,7 +33,8 @@
     <Grid x:Name="LayoutRoot">
         <phone:Panorama>
             <phone:Panorama.Title>
-                <TextBlock Text="Название" 
+                <TextBlock Text="{Binding Main.CurrentPlace.Title, 
+                    Source={StaticResource Locator}}" 
                            Margin="10,20,0,0" 
                            FontSize="90"/>
             </phone:Panorama.Title>
@@ -51,7 +52,8 @@
                             <TextBlock Text="{Binding Path=LocalizedResources.ItemTitle, 
                             Source={StaticResource LocalizedStrings}}" 
                                    Style="{StaticResource PhoneTextGroupHeaderStyle}"/>
-                            <TextBlock Text="{Binding Main.CurrentPlace.Title, Source={StaticResource Locator}}"/>
+                            <TextBlock Text="{Binding Main.CurrentPlace.Title, 
+                                Source={StaticResource Locator}}" TextWrapping="Wrap"/>
 
                             <TextBlock Style="{StaticResource PhoneTextGroupHeaderStyle}"
                                        Text="{Binding Path=LocalizedResources.ItemDescription, 
@@ -83,7 +85,33 @@
                 </Grid>
                 <!--Center="{Binding Position}"-->
             </phone:PanoramaItem>
+
+            <phone:PanoramaItem>
+                <phone:PanoramaItem.Header>
+                    <Border  Margin="-12,0,0,0">
+                        <TextBlock Text="Фотографии" FontSize="60" 
+                                   Margin="15,0,0,0"/>
+                    </Border>
+                </phone:PanoramaItem.Header>
+                <Grid>
+                    <telerikData:RadJumpList 
+                    Margin="0,0,0,0" Width="Auto"                
+                    x:Name="PhotosList"                                          
+                    ItemsSource="{Binding Path=OutImages}"
+                    ItemTemplate="{StaticResource ImageItem}"
+                    DataContext="{Binding Main.CurrentPlace, Source={StaticResource Locator}}" 
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" 
+                    EmptyContent="Нет данных.">
+                    </telerikData:RadJumpList>
+                </Grid>
+                <!--Center="{Binding Position}"-->
+            </phone:PanoramaItem>
+            
         </phone:Panorama>
+
+
+        
     </Grid>
 
 </phone:PhoneApplicationPage>

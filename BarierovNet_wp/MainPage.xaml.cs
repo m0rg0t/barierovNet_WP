@@ -44,6 +44,16 @@ namespace BarierovNet_wp
             catch { };
         }
 
+        private void CategoriesList_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
+        {
+            try
+            {
+                ViewModelLocator.MainStatic.CurrentCategory = (CategoryItem)this.CategoriesList.SelectedItem;
+                NavigationService.Navigate(new Uri("/Pages/CategoryPage.xaml", UriKind.Relative));
+            }
+            catch { };
+        }
+
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{

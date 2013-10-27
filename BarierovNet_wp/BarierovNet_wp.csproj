@@ -107,6 +107,9 @@
     <Compile Include="Pages\CategoriesItemsPage.xaml.cs">
       <DependentUpon>CategoriesItemsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CategoryPage.xaml.cs">
+      <DependentUpon>CategoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
     </Page>
     <Page Include="Pages\CategoriesItemsPage.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\CategoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MapPage.xaml">
       <SubType>Designer</SubType>

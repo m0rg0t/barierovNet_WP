@@ -45,6 +45,16 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Name="ImageItem">
+            <Grid Margin="15,20,0,0" Width="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding}"
+                       VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+
         <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="true" />
     </Application.Resources>
 

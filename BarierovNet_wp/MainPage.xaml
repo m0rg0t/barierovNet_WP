@@ -90,10 +90,6 @@
                                      ItemTemplate="{StaticResource PlaceItem}"
                                      ItemsSource="{Binding Path=Places}"
                                      DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
-                    <!--<telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>
-                        <telerikPrimitives:WrapVirtualizationStrategyDefinition Orientation="Horizontal" 
-                                                                                WrapLineAlignment="Center"/>
-                    </telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>-->
                 </telerikPrimitives:RadDataBoundListBox>
             </phone:PanoramaItem>
 
@@ -113,7 +109,7 @@
                 DataContext="{Binding Main, Source={StaticResource Locator}}" 
                 VerticalAlignment="Stretch"
                 HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" 
-                EmptyContent="Нет данных.">
+                EmptyContent="Нет данных." ItemTap="CategoriesList_ItemTap">
                 </telerikData:RadJumpList>
             </phone:PanoramaItem>
 

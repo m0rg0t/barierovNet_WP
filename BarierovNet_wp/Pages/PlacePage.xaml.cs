@@ -47,8 +47,7 @@ namespace BarierovNet_wp.Pages
                 catch { };
                 DrawMapMarker(ViewModelLocator.MainStatic.CurrentPlace.Position, Colors.Red, mapLayer);
             }
-
-            //PlaceMap.Layers.Add(mapLayer);
+            PlaceMap.Layers.Add(mapLayer);
         }
 
         

@@ -32,7 +32,9 @@ namespace BarierovNet_wp.Model
         public string Title
         {
             get { return _title; }
-            set { _title = value; }
+            set { 
+                _title = value.Replace("&quot;","\"");
+            }
         }
 
         private int _city_id;
@@ -413,9 +415,30 @@ namespace BarierovNet_wp.Model
             set { 
                 _images = value;
                 RaisePropertyChanged("Images");
+                RaisePropertyChanged("OutImage");
                 RaisePropertyChanged("MainImage");                
             }
         }
+
+        private List<string> _outImages = new List<string>();
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> OutImages
+        {
+            get {
+                _outImages = new List<string>();
+                foreach (var item in Images)
+                {
+                    _outImages.Add("http://barierov.net/uploads/objects/"+item);
+                };
+                return _outImages;
+            }
+            private set { 
+                _outImages = value; 
+            }
+        }
+        
 
         /// <summary>
         /// 
@@ -427,7 +450,7 @@ namespace BarierovNet_wp.Model
             {
                 if (this.Images.Count() > 0)
                 {
-                    return this.Images.FirstOrDefault();
+                    return "http://barierov.net/uploads/objects/"+this.Images.FirstOrDefault();
                 }
                 else
                 {
