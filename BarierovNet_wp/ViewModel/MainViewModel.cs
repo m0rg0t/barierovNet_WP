@@ -156,6 +156,32 @@ namespace BarierovNet_wp.ViewModel
 
             return true;
         }
+
+        private PlaceItem _currentPlace = new PlaceItem();
+        /// <summary>
+        /// Текущее место
+        /// </summary>
+        public PlaceItem CurrentPlace
+        {
+            get { return _currentPlace; }
+            set {
+                _currentPlace = value;
+                RaisePropertyChanged("CurrentPlace");
+            }
+        }
+
+        private CategoryItem _currentCategory = new CategoryItem();
+        /// <summary>
+        /// Текущая категория
+        /// </summary>
+        public CategoryItem CurrentCategory
+        {
+            get { return _currentCategory; }
+            set { 
+                _currentCategory = value;
+                RaisePropertyChanged("CurrentCategory");
+            }
+        }
         
 
         private bool _loading = false;

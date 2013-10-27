@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using BarierovNet_wp.Resources;
 using BarierovNet_wp.ViewModel;
+using BarierovNet_wp.Model;
 
 namespace BarierovNet_wp
 {
@@ -29,6 +30,16 @@ namespace BarierovNet_wp
             try
             {
                 NavigationService.Navigate(new Uri("/Pages/MapPage.xaml", UriKind.Relative));
+            }
+            catch { };
+        }
+
+        private void TownPolicemans_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
+        {
+            try
+            {
+                ViewModelLocator.MainStatic.CurrentPlace = (PlaceItem)this.NearestPlaces.SelectedItem;
+                NavigationService.Navigate(new Uri("/Pages/PlacePage.xaml", UriKind.Relative));
             }
             catch { };
         }

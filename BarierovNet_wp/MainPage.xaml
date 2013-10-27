@@ -85,11 +85,11 @@
                                    FontSize="60" Margin="15,0,0,0"/>
                     </Border>
                 </phone:PanoramaItem.Header>
-                <telerikPrimitives:RadDataBoundListBox x:Name="TownPolicemans" 
+                <telerikPrimitives:RadDataBoundListBox x:Name="NearestPlaces" 
                                      EmptyContent="Нет данных"
                                      ItemTemplate="{StaticResource PlaceItem}"
                                      ItemsSource="{Binding Path=Places}"
-                                     DataContext="{Binding Main, Source={StaticResource Locator}}">
+                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
                     <!--<telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>
                         <telerikPrimitives:WrapVirtualizationStrategyDefinition Orientation="Horizontal" 
                                                                                 WrapLineAlignment="Center"/>

@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -161,7 +162,11 @@ namespace BarierovNet_wp.Model
         public double Latitude
         {
             get { return _latitude; }
-            set { _latitude = value; }
+            set { 
+                _latitude = value;
+                RaisePropertyChanged("Latitude");
+                RaisePropertyChanged("Position");
+            }
         }
 
         private double _longitude;
@@ -171,7 +176,26 @@ namespace BarierovNet_wp.Model
         public double Longitude
         {
             get { return _longitude; }
-            set { _longitude = value; }
+            set { 
+                _longitude = value;
+                RaisePropertyChanged("Longitude");
+                RaisePropertyChanged("Position");
+            }
+
+        }
+
+        private GeoCoordinate _position;
+        /// <summary>
+        /// 
+        /// </summary>
+        public GeoCoordinate Position
+        {
+            get {
+                _position = new GeoCoordinate(Latitude, Longitude);
+                return _position; }
+            set { 
+                _position = value; 
+            }
         }
         
 
