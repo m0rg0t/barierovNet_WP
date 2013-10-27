@@ -62,10 +62,18 @@
                 </phone:PanoramaItem.Header>
                 <Grid Margin="10,-10,10,0">
                     <telerikPrimitives:RadWrapPanel x:Name="MenuPanel">
-                        <telerikPrimitives:RadHubTile Title="Карта" ImageSource="/Images/map2.png" Name="MapTile"/>
-                        <telerikPrimitives:RadHubTile Title="Новости" ImageSource="/Images/news1.png" Name="NewsTile"/>
-                        <telerikPrimitives:RadHubTile Title="Поиск" ImageSource="/Images/search2.png" Name="SearchTile"/>
-                        <telerikPrimitives:RadHubTile Title="Вход" ImageSource="/Images/facebook2.png" Name="LoginTile" />
+                        <telerikPrimitives:RadHubTile Title="Карта" ImageSource="/Assets/map2.png" 
+                                                      Name="MapTile" Tap="MapTile_Tap"/>
+                        <telerikPrimitives:RadMosaicHubTile Title="Категории" 
+                            ImageSources="{Binding Path=CategoriesImages}"
+                            DataContext="{Binding Main, Source={StaticResource Locator}}" 
+                            Name="NewsTile"/>
+                        <telerikPrimitives:RadHubTile Title="Поиск" 
+                                                      ImageSource="/Assets/search2.png" 
+                                                      Name="SearchTile"/>
+                        <telerikPrimitives:RadHubTile 
+                            Title="Вход" 
+                            ImageSource="/Assets/facebook2.png" Name="LoginTile" />
                     </telerikPrimitives:RadWrapPanel>
                 </Grid>
     		</phone:PanoramaItem>
@@ -73,31 +81,20 @@
             <phone:PanoramaItem>
                 <phone:PanoramaItem.Header>
                     <Border Margin="-12,0,0,0">
-                        <TextBlock Text="Ближайшие места" 
+                        <TextBlock Text="Ближайшие" 
                                    FontSize="60" Margin="15,0,0,0"/>
                     </Border>
                 </phone:PanoramaItem.Header>
                 <telerikPrimitives:RadDataBoundListBox x:Name="TownPolicemans" 
                                      EmptyContent="Нет данных"
-                                     ItemsSource="{Binding Path=Policemans.Current_policemans}"
+                                     ItemTemplate="{StaticResource PlaceItem}"
+                                     ItemsSource="{Binding Path=Places}"
                                      DataContext="{Binding Main, Source={StaticResource Locator}}">
-                    <telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>
+                    <!--<telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>
                         <telerikPrimitives:WrapVirtualizationStrategyDefinition Orientation="Horizontal" 
                                                                                 WrapLineAlignment="Center"/>
-                    </telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>
-                    <!--<telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="10,10,10,10">
-                                <telerikPrimitives:RadSlideHubTile Title="{Binding Fullname}">
-                                    <telerikPrimitives:RadSlideHubTile.Picture>
-                                        <Image Source="{Binding Img}" Stretch="UniformToFill"/>
-                                    </telerikPrimitives:RadSlideHubTile.Picture>
-                                </telerikPrimitives:RadSlideHubTile>
-                            </Grid>
-                        </DataTemplate>
-                    </telerikPrimitives:RadDataBoundListBox.ItemTemplate>-->
+                    </telerikPrimitives:RadDataBoundListBox.VirtualizationStrategyDefinition>-->
                 </telerikPrimitives:RadDataBoundListBox>
-                <!--<TextBlock Text="123" FontFamily="Segoe WP"/>-->
             </phone:PanoramaItem>
 
                 <phone:PanoramaItem>
@@ -110,24 +107,13 @@
                 </phone:PanoramaItem.Header>
                 <telerikData:RadJumpList 
                 Margin="0,0,0,0" Width="Auto"                
-                x:Name="NewsListRad" 
-                ItemsSource="{Binding Path=News.NewItems}"
+                x:Name="CategoriesList"                                          
+                ItemsSource="{Binding Path=Categories}"
+                ItemTemplate="{StaticResource CategoryItem}"
                 DataContext="{Binding Main, Source={StaticResource Locator}}" 
-                HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                    <!--<telerikData:RadJumpList.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="15,20,0,0" Width="Auto">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="109"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Width="108" Source="{Binding Image}" VerticalAlignment="Top" />
-                                <StackPanel Grid.Column="1" Margin="15,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="Auto">
-                                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </telerikData:RadJumpList.ItemTemplate>-->
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" 
+                EmptyContent="Нет данных.">
                 </telerikData:RadJumpList>
             </phone:PanoramaItem>
 

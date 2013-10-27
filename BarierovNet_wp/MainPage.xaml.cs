@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using BarierovNet_wp.Resources;
+using BarierovNet_wp.ViewModel;
 
 namespace BarierovNet_wp
 {
@@ -20,6 +21,16 @@ namespace BarierovNet_wp
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+            ViewModelLocator.MainStatic.LoadData();
+        }
+
+        private void MapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                NavigationService.Navigate(new Uri("/Pages/MapPage.xaml", UriKind.Relative));
+            }
+            catch { };
         }
 
         // Sample code for building a localized ApplicationBar
