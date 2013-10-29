@@ -81,21 +81,6 @@
             <phone:PanoramaItem>
                 <phone:PanoramaItem.Header>
                     <Border Margin="-12,0,0,0">
-                        <TextBlock Text="Ближайшие" 
-                                   FontSize="60" Margin="15,0,0,0"/>
-                    </Border>
-                </phone:PanoramaItem.Header>
-                <telerikPrimitives:RadDataBoundListBox x:Name="NearestPlaces" 
-                                     EmptyContent="Нет данных"
-                                     ItemTemplate="{StaticResource PlaceItem}"
-                                     ItemsSource="{Binding Path=Places}"
-                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
-                </telerikPrimitives:RadDataBoundListBox>
-            </phone:PanoramaItem>
-
-                <phone:PanoramaItem>
-                <phone:PanoramaItem.Header>
-                    <Border Margin="-12,0,0,0">
                         <TextBlock Text="Категории" 
                                    FontSize="60" 
                                    Margin="15,0,0,0"/>
@@ -111,6 +96,36 @@
                 HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" 
                 EmptyContent="Нет данных." ItemTap="CategoriesList_ItemTap">
                 </telerikData:RadJumpList>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem>
+                <phone:PanoramaItem.Header>
+                    <Border Margin="-12,0,0,0">
+                        <TextBlock Text="Ближайшие" 
+                                   FontSize="60" Margin="15,0,0,0"/>
+                    </Border>
+                </phone:PanoramaItem.Header>
+                <telerikPrimitives:RadDataBoundListBox x:Name="NearestPlaces" 
+                                     EmptyContent="Нет данных"
+                                     ItemTemplate="{StaticResource PlaceItem}"
+                                     ItemsSource="{Binding Path=NearestPlaces}"
+                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
+                </telerikPrimitives:RadDataBoundListBox>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem>
+                <phone:PanoramaItem.Header>
+                    <Border Margin="-12,0,0,0">
+                        <TextBlock Text="Все объекты" 
+                                   FontSize="60" Margin="15,0,0,0"/>
+                    </Border>
+                </phone:PanoramaItem.Header>
+                <telerikPrimitives:RadDataBoundListBox x:Name="AllPlaces" 
+                                     EmptyContent="Нет данных"
+                                     ItemTemplate="{StaticResource PlaceItem}"
+                                     ItemsSource="{Binding Path=Places}"
+                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
+                </telerikPrimitives:RadDataBoundListBox>
             </phone:PanoramaItem>
 
         </phone:Panorama>

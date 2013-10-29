@@ -6,6 +6,9 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using Windows.Devices.Geolocation;
+using System.Device.Location;
+using System.Linq;
 
 namespace BarierovNet_wp.ViewModel
 {
@@ -88,7 +91,7 @@ namespace BarierovNet_wp.ViewModel
             }
         }
 
-        private ObservableCollection<PlaceItem> _places;
+        private ObservableCollection<PlaceItem> _places = new ObservableCollection<PlaceItem>();
         /// <summary>
         /// Список мест города
         /// </summary>
@@ -100,7 +103,20 @@ namespace BarierovNet_wp.ViewModel
                 RaisePropertyChanged("Places");
             }
         }
-        
+
+        private ObservableCollection<PlaceItem> _NearestPlaces = new ObservableCollection<PlaceItem>();
+        /// <summary>
+        /// Список ближайших мест города
+        /// </summary>
+        public ObservableCollection<PlaceItem> NearestPlaces
+        {
+            get { return _NearestPlaces; }
+            set
+            {
+                _NearestPlaces = value;
+                RaisePropertyChanged("NearestPlaces");
+            }
+        }       
         
         
         /// <summary>
@@ -138,6 +154,12 @@ namespace BarierovNet_wp.ViewModel
 
             try
             {
+                await GetCurrentCoordinate();
+            }
+            catch { };
+
+            try
+            {
                 string citiesOut = await MakeWebRequest("http://barierov.net/api/cities/");
                 Cities = JsonConvert.DeserializeObject<ObservableCollection<CityItem>>(citiesOut);
             }
@@ -147,6 +169,9 @@ namespace BarierovNet_wp.ViewModel
             {
                 string placesOut = await MakeWebRequest("http://barierov.net/api/business/list/?city=1");
                 Places = JsonConvert.DeserializeObject<ObservableCollection<PlaceItem>>(placesOut);
+
+                var nearItems = Places.OrderBy(c => c.DistanceInMeters).Take(60);
+                this.NearestPlaces = new ObservableCollection<PlaceItem>(nearItems);
             }
             catch(Exception ex) {
                 Debug.WriteLine(ex.ToString());
@@ -182,7 +207,63 @@ namespace BarierovNet_wp.ViewModel
                 RaisePropertyChanged("CurrentCategory");
             }
         }
-        
+
+        private string _searchQuery = "";
+        /// <summary>
+        /// 
+        /// </summary>
+        public string SearchQuery
+        {
+            get { return _searchQuery; }
+            set
+            {
+                _searchQuery = value;
+                RaisePropertyChanged("SearchQuery");
+            }
+        }
+
+        public long UnixTimeNow()
+        {
+            TimeSpan _TimeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
+            return (long)_TimeSpan.TotalSeconds;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public GeoCoordinate MyCoordinate
+        {
+            get;
+            set;
+        }
+
+        private double _accuracy = 0.0;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private async Task<bool> GetCurrentCoordinate()
+        {
+            Geolocator geolocator = new Geolocator();
+            geolocator.DesiredAccuracy = PositionAccuracy.High;
+
+            try
+            {
+                Geoposition currentPosition = await geolocator.GetGeopositionAsync(TimeSpan.FromMinutes(1),
+                                                                                   TimeSpan.FromSeconds(10));
+                _accuracy = currentPosition.Coordinate.Accuracy;
+                //Dispatcher.BeginInvoke(() =>
+                //{
+                MyCoordinate = new GeoCoordinate(currentPosition.Coordinate.Latitude, currentPosition.Coordinate.Longitude);
+                //});
+            }
+            catch (Exception ex)
+            {
+                // Couldn't get current location - location might be disabled in settings
+                //MessageBox.Show("Current location cannot be obtained. Check that location service is turned on in phone settings.");
+            }
+            return true;
+        }
 
         private bool _loading = false;
         /// <summary>

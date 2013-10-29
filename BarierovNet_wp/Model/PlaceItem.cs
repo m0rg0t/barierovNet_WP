@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BarierovNet_wp.Model
 {
     public class PlaceItem: ViewModelBase
@@ -492,6 +493,34 @@ namespace BarierovNet_wp.Model
             set { 
                 _parent_categories = value;
                 RaisePropertyChanged("Parent_categories");
+            }
+        }
+
+        /*var sCoord = new GeoCoordinate(sLatitude, sLongitude);
+        var eCoord = new GeoCoordinate(eLatitude, eLongitude);
+        return sCoord.DistanceTo(eCoord);*/
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double DistanceInMeters
+        {
+            private set { }
+            get
+            {
+                return Position.GetDistanceTo(ViewModelLocator.MainStatic.MyCoordinate);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double DistanceInKm
+        {
+            private set { }
+            get
+            {
+                return Math.Round(Position.GetDistanceTo(ViewModelLocator.MainStatic.MyCoordinate) / 1000);
             }
         }
         
