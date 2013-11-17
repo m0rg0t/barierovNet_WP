@@ -11,6 +11,9 @@ using System.Device.Location;
 using System.Linq;
 using Windows.Storage;
 using System.IO;
+using Microsoft.Phone.Maps.Services;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace BarierovNet_wp.ViewModel
 {
@@ -170,18 +173,16 @@ namespace BarierovNet_wp.ViewModel
 
             try
             {
-                GetCurrentCoordinate();
-            }
-            catch { };
-
-            try
-            {
                 string citiesOut = await MakeWebRequest("http://barierov.net/api/cities/");
                 Cities = JsonConvert.DeserializeObject<ObservableCollection<CityItem>>(citiesOut);
             }
             catch { };
 
-            
+            try
+            {
+                await GetCurrentCoordinate();
+            }
+            catch { };
 
             /*try
             {
@@ -213,21 +214,38 @@ namespace BarierovNet_wp.ViewModel
                 Debug.WriteLine(ex.ToString());
             };*/
 
-            try
-            {
-                string placesOut = await MakeWebRequest("http://barierov.net/api/business/list/?city=1");
-                Places = JsonConvert.DeserializeObject<ObservableCollection<PlaceItem>>(placesOut);
-
-                GetNearestItems();
-            }
-            catch(Exception ex) {
-                Debug.WriteLine(ex.ToString());
-            };
-
             this.Loading = false;
 
             return true;
         }
+
+        private int _cityId = 1;
+        /// <summary>
+        /// Идентификатор города
+        /// </summary>
+        public int CityId
+        {
+            get { return _cityId; }
+            set { 
+                _cityId = value;
+                RaisePropertyChanged("CityId");
+            }
+        }
+
+        private string _cityName = "";
+        /// <summary>
+        /// Название города
+        /// </summary>
+        public string CityName
+        {
+            get { return _cityName; }
+            set { 
+                _cityName = value;
+                RaisePropertyChanged("CityName");
+            }
+        }
+        
+        
 
         /// <summary>
         /// Get nearest to the current location items
@@ -285,6 +303,37 @@ namespace BarierovNet_wp.ViewModel
             }
         }
 
+        private bool _geolocationState = true;
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool GeolocationState
+        {
+            get { return _geolocationState; }
+            set { 
+                _geolocationState = value;
+                RaisePropertyChanged("GeolocationState");
+            }
+        }
+
+        public void ToggleGeolocationState()
+        {
+            if (GeolocationState)
+            {
+                GeolocationState = false;
+                this.CityId = 1;
+                this.CityName = "Москва";
+                LoadPlaces();
+                MessageBox.Show("Геолокация отключена.");
+            }
+            else
+            {
+                GeolocationState = true;
+                MessageBox.Show("Геолокация включена.");
+                GetCurrentCoordinate();
+            };
+        }
+
         public long UnixTimeNow()
         {
             TimeSpan _TimeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
@@ -317,23 +366,82 @@ namespace BarierovNet_wp.ViewModel
         private async Task<bool> GetCurrentCoordinate()
         {
             Geolocator geolocator = new Geolocator();
-            geolocator.DesiredAccuracy = PositionAccuracy.High;
+            geolocator.DesiredAccuracy = PositionAccuracy.Default;
 
             try
             {
-                Geoposition currentPosition = await geolocator.GetGeopositionAsync(TimeSpan.FromMinutes(10),
-                                                                                   TimeSpan.FromSeconds(10));
-                _accuracy = currentPosition.Coordinate.Accuracy;
+                if (GeolocationState == true)
+                {
+                    Geoposition currentPosition = await geolocator.GetGeopositionAsync();
+                    _accuracy = currentPosition.Coordinate.Accuracy;
+
+                    MyCoordinate = new GeoCoordinate(currentPosition.Coordinate.Latitude, currentPosition.Coordinate.Longitude);
+                };
                 //Dispatcher.BeginInvoke(() =>
                 //{
-                MyCoordinate = new GeoCoordinate(currentPosition.Coordinate.Latitude, currentPosition.Coordinate.Longitude);
+                
                 //});
+
+                if (this.Places.Count() < 1)
+                {
+                    ReverseGeocodeQuery MyReverseGeocodeQuery = new ReverseGeocodeQuery();
+                    MyReverseGeocodeQuery.GeoCoordinate = new GeoCoordinate(MyCoordinate.Latitude, MyCoordinate.Longitude);
+                    MyReverseGeocodeQuery.QueryCompleted += ReverseGeocodeQuery_QueryCompleted;
+                    MyReverseGeocodeQuery.QueryAsync();
+                };
             }
             catch (Exception ex)
             {
                 // Couldn't get current location - location might be disabled in settings
                 //MessageBox.Show("Current location cannot be obtained. Check that location service is turned on in phone settings.");
             }
+            return true;
+        }
+
+        private async void ReverseGeocodeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        {
+            if (e.Error == null)
+            {
+                if (e.Result.Count > 0)
+                {
+                    MapAddress address = e.Result[0].Information.Address;
+
+                    if (this.Cities.FirstOrDefault(c => c.Title == address.City) != null)
+                    {
+                        this.CityName = this.Cities.FirstOrDefault(c => c.Title == address.City).Title;
+                        this.CityId = this.Cities.FirstOrDefault(c => c.Title == address.City).Id;
+                    }
+                    else
+                    {
+                        if (this.Cities.FirstOrDefault(c => c.Title == address.District) != null)
+                        {
+                            this.CityName = this.Cities.FirstOrDefault(c => c.Title == address.District).Title;
+                            this.CityId = this.Cities.FirstOrDefault(c => c.Title == address.District).Id;
+                        };
+                    };
+
+                    //await LoadPlaces();
+                }
+            };
+
+            await LoadPlaces();
+        }
+
+        private async Task<bool> LoadPlaces()
+        {
+            this.Loading = true;
+            try
+            {
+                string placesOut = await MakeWebRequest("http://barierov.net/api/business/list/?city=" + this.CityId);
+                Places = JsonConvert.DeserializeObject<ObservableCollection<PlaceItem>>(placesOut);
+
+                GetNearestItems();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            };
+            this.Loading = false;
             return true;
         }
 

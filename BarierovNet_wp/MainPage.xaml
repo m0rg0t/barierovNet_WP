@@ -19,6 +19,16 @@
                             shell:SystemTray.IsVisible="{Binding Loading}"
                             shell:SystemTray.Opacity="0"
                             DataContext="{Binding Main, Source={StaticResource Locator}}">
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar Mode="Minimized">
+			<shell:ApplicationBar.MenuItems>
+				<shell:ApplicationBarMenuItem Text="Политика конфиденциальности" Click="ApplicationBarMenuItem_Click"/>
+				<shell:ApplicationBarMenuItem Text="оценить приложение" Click="ApplicationBarMenuItem_Click_1"/>
+				<shell:ApplicationBarMenuItem Text="вкл\выкл геолокацию" Click="ApplicationBarMenuItem_Click_2"/>
+				<shell:ApplicationBarMenuItem Text="Сайт barierov.net" Click="ApplicationBarMenuItem_Click_3"/>
+			</shell:ApplicationBar.MenuItems>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
     <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
@@ -38,6 +48,8 @@
             attributes to be drawn from the .resx file that matches the
             CurrentUICulture of the app at run time.
          -->
+    
+    
 
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator IsIndeterminate="true" 
@@ -70,7 +82,7 @@
                             Name="CategoriesTile" Tap="CategoriesTile_Tap"/>
                         <telerikPrimitives:RadHubTile Title="Поиск" 
                                                       ImageSource="/Assets/search2.png" 
-                                                      Name="SearchTile"/>
+                                                      Name="SearchTile" Tap="SearchTile_Tap"/>
                         <telerikPrimitives:RadHubTile 
                             Title="Вход" 
                             ImageSource="/Assets/facebook2.png" Name="LoginTile" Visibility="Collapsed" />
