@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Windows.Devices.Geolocation;
 using System.Device.Location;
 using System.Linq;
+using Windows.Storage;
+using System.IO;
 
 namespace BarierovNet_wp.ViewModel
 {
@@ -91,6 +93,20 @@ namespace BarierovNet_wp.ViewModel
             }
         }
 
+        private Collection<string> _nearestImages;
+        /// <summary>
+        /// Коллекция картинок ближайших объектов
+        /// </summary>
+        public Collection<string> NearestImages
+        {
+            get { return _nearestImages; }
+            set
+            {
+                _nearestImages = value;
+                RaisePropertyChanged("NearestImages");
+            }
+        }
+
         private ObservableCollection<PlaceItem> _places = new ObservableCollection<PlaceItem>();
         /// <summary>
         /// Список мест города
@@ -154,7 +170,7 @@ namespace BarierovNet_wp.ViewModel
 
             try
             {
-                await GetCurrentCoordinate();
+                GetCurrentCoordinate();
             }
             catch { };
 
@@ -165,13 +181,44 @@ namespace BarierovNet_wp.ViewModel
             }
             catch { };
 
+            
+
+            /*try
+            {
+                Uri dataUri = new Uri("ms-appx:///Data/moscow_places.json");
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+                //string jsonText = await ReadFileContentsAsync(file.Path);
+                var itemStream = file.OpenReadAsync();
+
+                //var isoFileReader = new System.IO.StreamReader(itemStream);
+                //string jsonText = isoFileReader.ReadLine();
+
+                //string jsonText = itemStream.ToString();
+                    //FileIO.ReadTextAsync(file);
+                string jsonText = "";
+                Places = JsonConvert.DeserializeObject<ObservableCollection<PlaceItem>>(jsonText);
+
+                var nearItems = Places.OrderBy(c => c.DistanceInMeters).Take(60);
+                this.NearestPlaces = new ObservableCollection<PlaceItem>(nearItems);
+
+                this.NearestImages = new Collection<string>();
+                foreach (var item in NearestPlaces)
+                {
+                    NearestImages.Add(item.MainImage);
+                };
+                RaisePropertyChanged("NearestImages");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            };*/
+
             try
             {
                 string placesOut = await MakeWebRequest("http://barierov.net/api/business/list/?city=1");
                 Places = JsonConvert.DeserializeObject<ObservableCollection<PlaceItem>>(placesOut);
 
-                var nearItems = Places.OrderBy(c => c.DistanceInMeters).Take(60);
-                this.NearestPlaces = new ObservableCollection<PlaceItem>(nearItems);
+                GetNearestItems();
             }
             catch(Exception ex) {
                 Debug.WriteLine(ex.ToString());
@@ -180,6 +227,22 @@ namespace BarierovNet_wp.ViewModel
             this.Loading = false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Get nearest to the current location items
+        /// </summary>
+        private void GetNearestItems()
+        {
+            var nearItems = Places.OrderBy(c => c.DistanceInMeters).Take(60);
+            this.NearestPlaces = new ObservableCollection<PlaceItem>(nearItems);
+
+            this.NearestImages = new Collection<string>();
+            foreach (var item in NearestPlaces)
+            {
+                NearestImages.Add(item.MainImage);
+            };
+            RaisePropertyChanged("NearestImages");
         }
 
         private PlaceItem _currentPlace = new PlaceItem();
@@ -228,14 +291,23 @@ namespace BarierovNet_wp.ViewModel
             return (long)_TimeSpan.TotalSeconds;
         }
 
+        private GeoCoordinate _MyCoordinate = new GeoCoordinate(55.756845, 37.616984);
         /// <summary>
-        /// 
+        /// Текущие координаты пользователя
         /// </summary>
         public GeoCoordinate MyCoordinate
         {
-            get;
-            set;
+            get { return _MyCoordinate; }
+            set {
+                if (_MyCoordinate != value)
+                {
+                    _MyCoordinate = value;
+                    GetNearestItems();
+                    RaisePropertyChanged("MyCoordinate");
+                };
+            }
         }
+        
 
         private double _accuracy = 0.0;
 
@@ -249,7 +321,7 @@ namespace BarierovNet_wp.ViewModel
 
             try
             {
-                Geoposition currentPosition = await geolocator.GetGeopositionAsync(TimeSpan.FromMinutes(1),
+                Geoposition currentPosition = await geolocator.GetGeopositionAsync(TimeSpan.FromMinutes(10),
                                                                                    TimeSpan.FromSeconds(10));
                 _accuracy = currentPosition.Coordinate.Accuracy;
                 //Dispatcher.BeginInvoke(() =>

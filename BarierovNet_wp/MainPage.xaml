@@ -47,7 +47,7 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-    	<phone:Panorama VerticalAlignment="Top">
+    	<phone:Panorama VerticalAlignment="Top" Name="MainPanorama">
             <phone:Panorama.Title>
                 <TextBlock Text="Барьеров нет" 
                            Margin="10,20,0,0" 
@@ -67,13 +67,18 @@
                         <telerikPrimitives:RadMosaicHubTile Title="Категории" 
                             ImageSources="{Binding Path=CategoriesImages}"
                             DataContext="{Binding Main, Source={StaticResource Locator}}" 
-                            Name="NewsTile"/>
+                            Name="CategoriesTile" Tap="CategoriesTile_Tap"/>
                         <telerikPrimitives:RadHubTile Title="Поиск" 
                                                       ImageSource="/Assets/search2.png" 
                                                       Name="SearchTile"/>
                         <telerikPrimitives:RadHubTile 
                             Title="Вход" 
-                            ImageSource="/Assets/facebook2.png" Name="LoginTile" />
+                            ImageSource="/Assets/facebook2.png" Name="LoginTile" Visibility="Collapsed" />
+                        
+                        <telerikPrimitives:RadMosaicHubTile Title="Ближайшие" 
+                            ImageSources="{Binding Path=NearestImages}"
+                            DataContext="{Binding Main, Source={StaticResource Locator}}" 
+                            Name="NearestTile" Tap="NearestTile_Tap"/>
                     </telerikPrimitives:RadWrapPanel>
                 </Grid>
     		</phone:PanoramaItem>
@@ -109,7 +114,7 @@
                                      EmptyContent="Нет данных"
                                      ItemTemplate="{StaticResource PlaceItem}"
                                      ItemsSource="{Binding Path=NearestPlaces}"
-                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
+                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="List_ItemTap">
                 </telerikPrimitives:RadDataBoundListBox>
             </phone:PanoramaItem>
 
@@ -124,7 +129,7 @@
                                      EmptyContent="Нет данных"
                                      ItemTemplate="{StaticResource PlaceItem}"
                                      ItemsSource="{Binding Path=Places}"
-                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="TownPolicemans_ItemTap">
+                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="List_ItemTap">
                 </telerikPrimitives:RadDataBoundListBox>
             </phone:PanoramaItem>
 

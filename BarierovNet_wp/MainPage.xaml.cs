@@ -34,7 +34,7 @@ namespace BarierovNet_wp
             catch { };
         }
 
-        private void TownPolicemans_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
+        private void List_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
         {
             try
             {
@@ -50,6 +50,24 @@ namespace BarierovNet_wp
             {
                 ViewModelLocator.MainStatic.CurrentCategory = (CategoryItem)this.CategoriesList.SelectedItem;
                 NavigationService.Navigate(new Uri("/Pages/CategoryPage.xaml", UriKind.Relative));
+            }
+            catch { };
+        }
+
+        private void NearestTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                MainPanorama.DefaultItem = MainPanorama.Items[2];
+            }
+            catch { };
+        }
+
+        private void CategoriesTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                MainPanorama.DefaultItem = MainPanorama.Items[1];
             }
             catch { };
         }

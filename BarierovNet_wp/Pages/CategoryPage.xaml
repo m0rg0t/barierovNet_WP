@@ -58,7 +58,9 @@
                 </Grid>
             </phone:PanoramaItem>
 
-            <phone:PanoramaItem>
+            <phone:PanoramaItem 
+                DataContext="{Binding Main.CurrentCategory, Source={StaticResource Locator}}"
+                Visibility="{Binding SubcategoriesVisibility}">
                 <phone:PanoramaItem.Header>
                     <Border  Margin="-12,0,0,0">
                         <TextBlock Text="Подкатегории" FontSize="60" 

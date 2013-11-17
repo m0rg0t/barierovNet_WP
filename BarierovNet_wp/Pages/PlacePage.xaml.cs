@@ -13,6 +13,7 @@ using System.Device.Location;
 using System.Windows.Input;
 using BarierovNet_wp.ViewModel;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace BarierovNet_wp.Pages
 {

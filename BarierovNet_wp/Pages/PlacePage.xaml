@@ -13,6 +13,7 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:converter="clr-namespace:BarierovNet_wp.Helpers"    
     
     xmlns:telerikData="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Data"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
@@ -22,11 +23,24 @@
     shell:SystemTray.IsVisible="{Binding Path=Main.Loading, Source={StaticResource Locator}}"
     shell:SystemTray.Opacity="0"
     DataContext="{Binding Main.CurrentPlace, Source={StaticResource Locator}}">
+    
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="TextBlockStyle1" BasedOn="{StaticResource PhoneTextBlockBase}" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}"/>
+        </Style>
+
+        <converter:LengthToVisibilityConverter x:Key="LengthToVisibilityConverter" />
+
+    </phone:PhoneApplicationPage.Resources>
 
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator IsIndeterminate="true" 
                                  IsVisible="{Binding Main.Loading, Source={StaticResource Locator}}" 
                                  Text="Загрузка" />
+        
+        
     </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
@@ -56,20 +70,54 @@
                                 Source={StaticResource Locator}}" TextWrapping="Wrap"/>
 
                             <TextBlock Style="{StaticResource PhoneTextGroupHeaderStyle}"
+                                       Visibility="{Binding Description, Converter={StaticResource LengthToVisibilityConverter}}" 
                                        Text="{Binding Path=LocalizedResources.ItemDescription, 
                                 Source={StaticResource LocalizedStrings}}"/>
-                            <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Path=Description}" 
+                                       Visibility="{Binding Description, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                       TextWrapping="Wrap"/>
 
                             <TextBlock Text="{Binding Path=LocalizedResources.ItemAddress, 
                                 Source={StaticResource LocalizedStrings}}" 
+                                       Visibility="{Binding Address, Converter={StaticResource LengthToVisibilityConverter}}" 
                                    Style="{StaticResource PhoneTextGroupHeaderStyle}"/>
-                            <TextBlock Text="{Binding Path=Address}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Path=Address}" 
+                                       Visibility="{Binding Address, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                       TextWrapping="Wrap"/>
+
+                            <TextBlock Text="Телефон" 
+                                       Visibility="{Binding Phone, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                   Style="{StaticResource PhoneTextGroupHeaderStyle}"/>
+                            <TextBlock Text="{Binding Path=Phone}"
+                                       Visibility="{Binding Phone, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                       TextWrapping="Wrap"/>
+
+                            <TextBlock Text="Время работы" 
+                                       Visibility="{Binding Work_time, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                   Style="{StaticResource PhoneTextGroupHeaderStyle}"/>
+                            <TextBlock Text="{Binding Path=Work_time}"
+                                       Visibility="{Binding Work_time, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                       TextWrapping="Wrap"/>
+
+                            <TextBlock Text="Email" 
+                                       Visibility="{Binding Email, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                   Style="{StaticResource TextBlockStyle1}"/>
+                            <TextBlock Text="{Binding Path=Email}" 
+                                       Visibility="{Binding Email, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                       TextWrapping="Wrap"/>
+
+                            <TextBlock Text="Site" 
+                                       Visibility="{Binding Site, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                   Style="{StaticResource PhoneTextGroupHeaderStyle}"/>
+                            <TextBlock Text="{Binding Path=Site}" 
+                                       Visibility="{Binding Site, Converter={StaticResource LengthToVisibilityConverter}}" 
+                                       TextWrapping="Wrap"/>
 
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
             </phone:PanoramaItem>
-            
+
             <!--Panorama item two-->
             <phone:PanoramaItem>
                 <phone:PanoramaItem.Header>
@@ -107,11 +155,11 @@
                 </Grid>
                 <!--Center="{Binding Position}"-->
             </phone:PanoramaItem>
-            
+
         </phone:Panorama>
 
 
-        
+
     </Grid>
 
 </phone:PhoneApplicationPage>

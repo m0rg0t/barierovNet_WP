@@ -16,14 +16,17 @@ namespace BarierovNet_wp.Model
         {
         }
 
-        private int _id;
+        private string _id;
         /// <summary>
         /// Идентификатор объекта
         /// </summary>
-        public int Id
+        public string Id
         {
             get { return _id; }
-            set { _id = value; }
+            set { 
+                _id = value;
+                RaisePropertyChanged("Id");
+            }
         }
 
         private string _title;
@@ -45,7 +48,10 @@ namespace BarierovNet_wp.Model
         public int City_id
         {
             get { return _city_id; }
-            set { _city_id = value; }
+            set { 
+                _city_id = value;
+                RaisePropertyChanged("City_id");
+            }
         }
 
         private string _full_title;
@@ -55,7 +61,10 @@ namespace BarierovNet_wp.Model
         public string Full_title
         {
             get { return _full_title; }
-            set { _full_title = value; }
+            set { 
+                _full_title = value;
+                RaisePropertyChanged("Full_title");
+            }
         }
 
         private string _address;
@@ -65,7 +74,10 @@ namespace BarierovNet_wp.Model
         public string Address
         {
             get { return _address; }
-            set { _address = value; }
+            set { 
+                _address = value;
+                RaisePropertyChanged("Address");
+            }
         }
 
         private string _phone;
@@ -75,7 +87,10 @@ namespace BarierovNet_wp.Model
         public string Phone
         {
             get { return _phone; }
-            set { _phone = value; }
+            set { 
+                _phone = value;
+                RaisePropertyChanged("Phone");
+            }
         }
 
         private string _site;
@@ -85,7 +100,10 @@ namespace BarierovNet_wp.Model
         public string Site
         {
             get { return _site; }
-            set { _site = value; }
+            set { 
+                _site = value;
+                RaisePropertyChanged("Site");
+            }
         }
 
         private string _email;
@@ -95,7 +113,10 @@ namespace BarierovNet_wp.Model
         public string Email
         {
             get { return _email; }
-            set { _email = value; }
+            set { 
+                _email = value;
+                RaisePropertyChanged("Email");
+            }
         }
 
         private string _description;
@@ -105,7 +126,10 @@ namespace BarierovNet_wp.Model
         public string Description
         {
             get { return _description; }
-            set { _description = value; }
+            set { 
+                _description = value;
+                RaisePropertyChanged("Description");
+            }
         }
 
         private string _work_time;
@@ -118,44 +142,50 @@ namespace BarierovNet_wp.Model
             set { _work_time = value; }
         }
 
-        private int _levelId;
+        private string _levelId;
         /// <summary>
         /// 
         /// </summary>
-        public int LevelId
+        public string LevelId
         {
             get { return _levelId; }
             set { _levelId = value; }
         }
 
-        private int _user_id;
+        private string _user_id;
         /// <summary>
         /// Идентификатор пользователя
         /// </summary>
-        public int User_id
+        public string User_id
         {
             get { return _user_id; }
             set { _user_id = value; }
         }
 
-        private int _activation;
+        private string _activation;
         /// <summary>
         /// 
         /// </summary>
-        public int Activation
+        public string Activation
         {
             get { return _activation; }
-            set { _activation = value; }
+            set { 
+                _activation = value;
+                RaisePropertyChanged("Activation");
+            }
         }
 
-        private int _delete;
+        private string _delete;
         /// <summary>
         /// 
         /// </summary>
-        public int Delete
+        public string Delete
         {
             get { return _delete; }
-            set { _delete = value; }
+            set { 
+                _delete = value;
+                RaisePropertyChanged("Delete");
+            }
         }
 
         private double _latitude;
@@ -197,7 +227,8 @@ namespace BarierovNet_wp.Model
                 _position = new GeoCoordinate(Latitude, Longitude);
                 return _position; }
             set { 
-                _position = value; 
+                _position = value;
+                RaisePropertyChanged("Position");
             }
         }
         
@@ -209,7 +240,10 @@ namespace BarierovNet_wp.Model
         public string Create_date
         {
             get { return _create_date; }
-            set { _create_date = value; }
+            set { 
+                _create_date = value;
+                RaisePropertyChanged("ApprovalDate");
+            }
         }
 
         private string _ApprovalDate;
@@ -219,7 +253,10 @@ namespace BarierovNet_wp.Model
         public string ApprovalDate
         {
             get { return _ApprovalDate; }
-            set { _ApprovalDate = value; }
+            set { 
+                _ApprovalDate = value;
+                RaisePropertyChanged("ApprovalDate");
+            }
         }
 
         private string _Stairs;
@@ -229,7 +266,10 @@ namespace BarierovNet_wp.Model
         public string Stairs
         {
             get { return _Stairs; }
-            set { _Stairs = value; }
+            set { 
+                _Stairs = value;
+                RaisePropertyChanged("Stairs");
+            }
         }
 
         private string _DoorsWidth;
@@ -239,7 +279,10 @@ namespace BarierovNet_wp.Model
         public string DoorsWidth
         {
             get { return _DoorsWidth; }
-            set { _DoorsWidth = value; }
+            set { 
+                _DoorsWidth = value;
+                RaisePropertyChanged("DoorsWidth");
+            }
         }
 
         private string _GroundEntrance;
@@ -249,7 +292,10 @@ namespace BarierovNet_wp.Model
         public string GroundEntrance
         {
             get { return _GroundEntrance; }
-            set { _GroundEntrance = value; }
+            set { 
+                _GroundEntrance = value;
+                RaisePropertyChanged("_GroundEntrance");
+            }
         }
 
         private string _pandus;
@@ -259,7 +305,10 @@ namespace BarierovNet_wp.Model
         public string Pandus
         {
             get { return _pandus; }
-            set { _pandus = value; }
+            set { 
+                _pandus = value;
+                RaisePropertyChanged("Pandus");
+            }
         }
 
         private string _elevator;
@@ -269,7 +318,10 @@ namespace BarierovNet_wp.Model
         public string Elevator
         {
             get { return _elevator; }
-            set { _elevator = value; }
+            set { 
+                _elevator = value;
+                RaisePropertyChanged("Elevator");
+            }
         }
 
         private string _toilet_equipment;
@@ -279,7 +331,10 @@ namespace BarierovNet_wp.Model
         public string Toilet_equipment
         {
             get { return _toilet_equipment; }
-            set { _toilet_equipment = value; }
+            set { 
+                _toilet_equipment = value;
+                RaisePropertyChanged("Toilet_equipment");
+            }
         }
 
         private string _spec_elevator;
@@ -289,7 +344,10 @@ namespace BarierovNet_wp.Model
         public string Spec_elevator
         {
             get { return _spec_elevator; }
-            set { _spec_elevator = value; }
+            set { 
+                _spec_elevator = value;
+                RaisePropertyChanged("Spec_elevator");
+            }
         }
 
         private string _ElevatorButton;
@@ -299,7 +357,10 @@ namespace BarierovNet_wp.Model
         public string ElevatorButton
         {
             get { return _ElevatorButton; }
-            set { _ElevatorButton = value; }
+            set { 
+                _ElevatorButton = value;
+                RaisePropertyChanged("ElevatorButton");
+            }
         }
 
         private string _HelpAccess;
@@ -309,7 +370,10 @@ namespace BarierovNet_wp.Model
         public string HelpAccess
         {
             get { return _HelpAccess; }
-            set { _HelpAccess = value; }
+            set {
+                _HelpAccess = value;
+                RaisePropertyChanged("HelpAccess");
+            }
         }
 
         private string _SwaddlePlace;
@@ -321,6 +385,7 @@ namespace BarierovNet_wp.Model
             get { return _SwaddlePlace; }
             set { 
                 _SwaddlePlace = value;
+                RaisePropertyChanged("SwaddlePlace");
             }
         }
 
@@ -331,7 +396,10 @@ namespace BarierovNet_wp.Model
         public string Stage
         {
             get { return _stage; }
-            set { _stage = value; }
+            set { 
+                _stage = value;
+                RaisePropertyChanged("Stage");
+            }
         }
 
         private string _entrance_to_the_ground;
@@ -341,7 +409,10 @@ namespace BarierovNet_wp.Model
         public string Entrance_to_the_ground
         {
             get { return _entrance_to_the_ground; }
-            set { _entrance_to_the_ground = value; }
+            set { 
+                _entrance_to_the_ground = value;
+                RaisePropertyChanged("Entrance_to_the_ground");
+            }
         }
 
         private string _help_staff;
@@ -351,7 +422,10 @@ namespace BarierovNet_wp.Model
         public string Help_staff
         {
             get { return _help_staff; }
-            set { _help_staff = value; }
+            set { 
+                _help_staff = value;
+                RaisePropertyChanged("Help_staff");
+            }
         }
 
         private string _plase_for_swaddling;
@@ -380,11 +454,11 @@ namespace BarierovNet_wp.Model
             }
         }
 
-        private int _sort;
+        private string _sort;
         /// <summary>
         /// 
         /// </summary>
-        public int Sort
+        public string Sort
         {
             get { return _sort; }
             set { 
@@ -508,7 +582,13 @@ namespace BarierovNet_wp.Model
             private set { }
             get
             {
-                return Position.GetDistanceTo(ViewModelLocator.MainStatic.MyCoordinate);
+                //try
+                //{
+                    return Position.GetDistanceTo(ViewModelLocator.MainStatic.MyCoordinate);
+                //}
+                //catch {
+                //    return 10000000;
+                //};
             }
         }
 
@@ -520,7 +600,13 @@ namespace BarierovNet_wp.Model
             private set { }
             get
             {
-                return Math.Round(Position.GetDistanceTo(ViewModelLocator.MainStatic.MyCoordinate) / 1000);
+                //try
+                //{
+                    return Math.Round(DistanceInMeters / 1000);
+                //}
+                //catch {
+                //    return 10000;
+                //};
             }
         }
         

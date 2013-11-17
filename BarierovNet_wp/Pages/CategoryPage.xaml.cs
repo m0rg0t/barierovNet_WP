@@ -31,8 +31,13 @@ namespace BarierovNet_wp.Pages
 
         private void CategoriesList_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
         {
-            ViewModelLocator.MainStatic.CurrentCategory = (CategoryItem)this.CategoriesList.SelectedItem;
-            NavigationService.Navigate(new Uri("/Pages/CategoryPage.xaml", UriKind.Relative));
+            try
+            {
+                ViewModelLocator.MainStatic.CurrentCategory = (CategoryItem)this.CategoriesList.SelectedItem;
+                ViewModelLocator.MainStatic.CurrentCategory.UpdateChildItems();
+                NavigationService.Navigate(new Uri("/Pages/CategoryPage.xaml", UriKind.Relative));
+            }
+            catch { };
         }
     }
 }

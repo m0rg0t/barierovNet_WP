@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -129,6 +130,14 @@ namespace BarierovNet_wp.Model
             }
             set { 
                 _sub_cat = value;
+                if (_sub_cat.Count() > 0)
+                {
+                    SubcategoriesVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    SubcategoriesVisibility = Visibility.Collapsed;
+                };
                 foreach (var item in _sub_cat)
                 {
                     item.Image = _image;
@@ -152,6 +161,24 @@ namespace BarierovNet_wp.Model
             }
 	    }
 
+        public void UpdateChildItems()
+        {
+            RaisePropertyChanged("ChildPlaces");
+        }
+
+        private Visibility _subcategoriesVisibility = Visibility.Collapsed;
+        /// <summary>
+        /// 
+        /// </summary>
+        public Visibility SubcategoriesVisibility
+        {
+            get { return _subcategoriesVisibility; }
+            set { 
+                _subcategoriesVisibility = value;
+                RaisePropertyChanged("Visibility");
+            }
+        }
+        
 
         public List<PlaceItem> ChildPlaces
         {
@@ -164,6 +191,15 @@ namespace BarierovNet_wp.Model
                 foreach (var item in ViewModelLocator.MainStatic.Places)
                 {
                     if (item.Parent_categories.FirstOrDefault(c => c.ToString() == this.Id.ToString()) != null)
+                    {
+                        if (item.Images.Count() < 1)
+                        {
+                            item.Images.Add(this.Image);
+                        };
+                        items.Add(item);
+                    };
+
+                    if (item.Categories.FirstOrDefault(c => c.ToString() == this.Id.ToString()) != null)
                     {
                         if (item.Images.Count() < 1)
                         {
