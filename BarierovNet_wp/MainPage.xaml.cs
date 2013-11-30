@@ -12,6 +12,7 @@ using BarierovNet_wp.ViewModel;
 using BarierovNet_wp.Model;
 using Microsoft.Phone.Tasks;
 using Coding4Fun.Toolkit.Controls;
+using Telerik.Windows.Controls;
 
 namespace BarierovNet_wp
 {
@@ -40,7 +41,7 @@ namespace BarierovNet_wp
         {
             try
             {
-                ViewModelLocator.MainStatic.CurrentPlace = (PlaceItem)this.NearestPlaces.SelectedItem;
+                ViewModelLocator.MainStatic.CurrentPlace = (PlaceItem)(sender as RadDataBoundListBox).SelectedItem;
                 NavigationService.Navigate(new Uri("/Pages/PlacePage.xaml", UriKind.Relative));
             }
             catch { };
@@ -142,7 +143,7 @@ namespace BarierovNet_wp
             try
             {
                 ViewModelLocator.MainStatic.SearchQuery = e.Result.ToString();
-                MainPanorama.DefaultItem = MainPanorama.Items[2];
+                MainPanorama.DefaultItem = MainPanorama.Items[4];
             }
             catch { };
         }

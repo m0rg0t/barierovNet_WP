@@ -80,6 +80,7 @@
                             ImageSources="{Binding Path=CategoriesImages}"
                             DataContext="{Binding Main, Source={StaticResource Locator}}" 
                             Name="CategoriesTile" Tap="CategoriesTile_Tap"/>
+                        
                         <telerikPrimitives:RadHubTile Title="Поиск" 
                                                       ImageSource="/Assets/search2.png" 
                                                       Name="SearchTile" Tap="SearchTile_Tap"/>
@@ -128,7 +129,7 @@
                                      ItemsSource="{Binding Path=NearestPlaces}"
                                      DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="List_ItemTap">
                 </telerikPrimitives:RadDataBoundListBox>
-            </phone:PanoramaItem>
+            </phone:PanoramaItem>          
 
             <phone:PanoramaItem>
                 <phone:PanoramaItem.Header>
@@ -141,6 +142,21 @@
                                      EmptyContent="Нет данных"
                                      ItemTemplate="{StaticResource PlaceItem}"
                                      ItemsSource="{Binding Path=Places}"
+                                     DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="List_ItemTap">
+                </telerikPrimitives:RadDataBoundListBox>
+            </phone:PanoramaItem>
+
+            <phone:PanoramaItem>
+                <phone:PanoramaItem.Header>
+                    <Border Margin="-12,0,0,0">
+                        <TextBlock Text="Поиск" 
+                                   FontSize="60" Margin="15,0,0,0"/>
+                    </Border>
+                </phone:PanoramaItem.Header>
+                <telerikPrimitives:RadDataBoundListBox x:Name="SearchPlaces" 
+                                     EmptyContent="Нет данных"
+                                     ItemTemplate="{StaticResource PlaceItem}"
+                                     ItemsSource="{Binding Path=SearchPlaces}"
                                      DataContext="{Binding Main, Source={StaticResource Locator}}" ItemTap="List_ItemTap">
                 </telerikPrimitives:RadDataBoundListBox>
             </phone:PanoramaItem>

@@ -232,7 +232,7 @@ namespace BarierovNet_wp.ViewModel
             }
         }
 
-        private string _cityName = "";
+        private string _cityName = "Москва";
         /// <summary>
         /// Название города
         /// </summary>
@@ -298,10 +298,38 @@ namespace BarierovNet_wp.ViewModel
             get { return _searchQuery; }
             set
             {
-                _searchQuery = value;
-                RaisePropertyChanged("SearchQuery");
+                if (_searchQuery != value)
+                {
+                    _searchQuery = value;
+
+                    var results = from item in Places
+                                  where item.Title.ToLower().Contains(_searchQuery.ToLower())
+                                  || item.Description.ToLower().Contains(_searchQuery.ToLower())
+                                  || item.Address.ToLower().Contains(_searchQuery.ToLower())
+                                  select item;
+                    this.SearchPlaces = results.ToList();
+
+                    RaisePropertyChanged("SearchQuery");
+                    RaisePropertyChanged("SearchPlaces");
+                };
             }
         }
+
+        private List<PlaceItem> _searchPlaces = new List<PlaceItem>();
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<PlaceItem> SearchPlaces
+        {
+            get { 
+                return _searchPlaces; 
+            }
+            set { 
+                _searchPlaces = value;
+                RaisePropertyChanged("SearchPlaces");
+            }
+        }
+        
 
         private bool _geolocationState = true;
         /// <summary>
