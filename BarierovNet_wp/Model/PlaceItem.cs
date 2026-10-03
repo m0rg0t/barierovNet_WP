@@ -37,7 +37,8 @@ namespace BarierovNet_wp.Model
         {
             get { return _title; }
             set { 
-                _title = value.Replace("&quot;","\"");
+                _title = value == null ? null : value.Replace("&quot;","\"");
+                RaisePropertyChanged("Title");
             }
         }
 
@@ -242,7 +243,7 @@ namespace BarierovNet_wp.Model
             get { return _create_date; }
             set { 
                 _create_date = value;
-                RaisePropertyChanged("ApprovalDate");
+                RaisePropertyChanged("Create_date");
             }
         }
 
@@ -490,7 +491,7 @@ namespace BarierovNet_wp.Model
             set { 
                 _images = value;
                 RaisePropertyChanged("Images");
-                RaisePropertyChanged("OutImage");
+                RaisePropertyChanged("OutImages");
                 RaisePropertyChanged("MainImage");                
             }
         }
