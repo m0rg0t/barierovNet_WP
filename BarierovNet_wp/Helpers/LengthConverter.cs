@@ -13,7 +13,7 @@ namespace BarierovNet_wp.Helpers
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string text = (string)value;
-            return text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+            return !String.IsNullOrEmpty(text) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
